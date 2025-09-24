@@ -83,10 +83,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
               </>
             ) : (
               <>
-                <Link to="/login" className="px-4 py-2 border border-portfolio rounded-none text-portfolio no-underline">
+                <Link to="/login" className="px-2 py-1 border border-portfolio rounded-none text-portfolio no-underline text-sm sm:px-4 sm:py-2 sm:text-base">
                   Log In
                 </Link>
-                <Link to="/login" className="px-4 py-2 bg-accent text-white rounded-none no-underline font-semibold">
+                <Link to="/login" className="px-2 py-1 bg-accent text-white rounded-none no-underline font-semibold text-sm sm:px-4 sm:py-2 sm:text-base">
                   Get Started
                 </Link>
               </>

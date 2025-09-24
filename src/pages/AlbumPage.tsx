@@ -74,8 +74,21 @@ const AlbumPage: React.FC = () => {
           />
 
           {/* Album Title Section */}
-          <div className="flex items-start justify-between">
-            <div className="flex-1">
+          <div className="flex flex-col md:flex-row md:items-start md:justify-between">
+            {/* Action Buttons */}
+            <div className="flex space-x-3 mb-4 md:mb-0 md:ml-6 md:order-2">
+              <Link
+                to={`/users/${album.userId}`}
+                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white"
+              >
+                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+                </svg>
+                Back to User
+              </Link>
+            </div>
+
+            <div className="flex-1 md:order-1">
               <h1 className="text-4xl font-bold text-portfolio mb-3 font-playfair leading-tight">
                 {album.title}
               </h1>
@@ -87,19 +100,6 @@ const AlbumPage: React.FC = () => {
                   {photos.length} {photos.length === 1 ? 'photo' : 'photos'}
                 </span>
               </div>
-            </div>
-
-            {/* Action Buttons */}
-            <div className="flex space-x-3 ml-6">
-              <Link
-                to={`/users/${album.userId}`}
-                className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white"
-              >
-                <svg className="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-                </svg>
-                Back to User
-              </Link>
             </div>
           </div>
         </div>

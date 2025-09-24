@@ -12,37 +12,13 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
       to={`/photos/${photo.id}`}
       className="block"
     >
-      <div 
-        style={{
-          width: '100%',
-          aspectRatio: '1 / 1',
-          backgroundColor: '#f3f4f6',
-          position: 'relative',
-          borderRadius: '8px',
-          overflow: 'hidden'
-        }}
-        onMouseEnter={(e) => {
-          const titleOverlay = e.currentTarget.querySelector('[data-title-overlay]') as HTMLElement;
-          if (titleOverlay) {
-            titleOverlay.style.transform = 'translateY(0)';
-          }
-        }}
-        onMouseLeave={(e) => {
-          const titleOverlay = e.currentTarget.querySelector('[data-title-overlay]') as HTMLElement;
-          if (titleOverlay) {
-            titleOverlay.style.transform = 'translateY(100%)';
-          }
-        }}
+      <div
+        className="relative w-full aspect-square bg-gray-100 rounded-lg overflow-hidden"
       >
         <img
           src={`https://picsum.photos/300/300?random=${photo.id}`}
           alt={photo.title}
-          style={{
-            width: '100%',
-            height: '100%',
-            objectFit: 'cover',
-            display: 'block'
-          }}
+          className="w-full h-full object-cover block"
           onLoad={() => {
             console.log('Image loaded successfully:', photo.id);
           }}
@@ -58,43 +34,11 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
           }}
         />
         
-        <div 
-          style={{
-            position: 'absolute',
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
-            display: 'flex',
-            alignItems: 'flex-end',
-            pointerEvents: 'none'
-          }}
-        >
-          <div 
-            data-title-overlay
-            style={{
-              width: '100%',
-              padding: '16px',
-              transform: 'translateY(100%)',
-              transition: 'transform 0.3s ease',
-              background: 'linear-gradient(transparent, rgba(0, 0, 0, 0.7))',
-              pointerEvents: 'none'
-            }}
+        <div className="absolute inset-0 flex items-end pointer-events-none">
+          <div
+            className="w-full p-4 translate-y-0 md:translate-y-full md:hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"
           >
-            <h3 
-              style={{
-                color: 'white',
-                fontWeight: '500',
-                fontSize: '14px',
-                lineHeight: '1.4',
-                margin: 0,
-                overflow: 'hidden',
-                display: '-webkit-box',
-                WebkitLineClamp: 2,
-                WebkitBoxOrient: 'vertical',
-                textShadow: '0 1px 3px rgba(0, 0, 0, 0.5)'
-              }}
-            >
+            <h3 className="text-white font-medium text-sm leading-tight m-0 overflow-hidden line-clamp-2 text-shadow">
               {photo.title}
             </h3>
           </div>

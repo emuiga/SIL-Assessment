@@ -29,7 +29,7 @@ const LoginPage: React.FC = () => {
 
   return (
     <>
-      <div className="min-h-screen bg-portfolio flex items-start justify-center px-6 pt-16 pb-20 font-playfair">
+      <div className="min-h-screen bg-portfolio flex items-start justify-center px-6 pt-16 pb-10 sm:pb-20 font-playfair">
         <div className="w-full max-w-lg text-center">
           {/* Title */}
           <h1 className="text-3xl font-bold text-portfolio mb-2 font-playfair">

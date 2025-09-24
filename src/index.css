@@ -14,6 +14,7 @@ body {
   font-family: 'Mona Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif !important;
   background-color: var(--portfolio-bg) !important;
   color: var(--portfolio-text) !important;
+  overflow-x: hidden;
 }
 
 #root {
