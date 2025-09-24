@@ -7,23 +7,32 @@ interface AlbumCardProps {
 }
 
 const AlbumCard: React.FC<AlbumCardProps> = ({ album }) => {
+  const capitalizedTitle = album.title.charAt(0).toUpperCase() + album.title.slice(1);
+
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
-      <div className="p-6">
-        <h3 className="font-semibold text-gray-900 mb-3 line-clamp-2 text-lg leading-tight">
-          {album.title}
-        </h3>
-        <div className="flex items-center justify-between">
-          <span className="text-sm text-gray-500">ID: {album.id}</span>
-          <Link
-            to={`/albums/${album.id}`}
-            className="text-accent text-sm font-medium hover:text-orange-600"
-          >
-            View Album →
-          </Link>
+    <Link
+      to={`/albums/${album.id}`}
+      className="group bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+    >
+      <div className="flex">
+        <div className="w-1/4 p-4 flex items-center justify-center">
+          <div
+            aria-hidden
+            className="w-12 h-12"
+            style={{
+              backgroundColor: 'var(--portfolio-text)',
+              WebkitMask: "url('/camera.png') center / contain no-repeat",
+              mask: "url('/camera.png') center / contain no-repeat",
+            }}
+          />
+        </div>
+        <div className="w-3/4 p-4 flex items-center">
+          <h3 className="font-semibold text-gray-900 line-clamp-2 text-lg leading-tight hover:text-accent transition-colors cursor-pointer">
+            {capitalizedTitle}
+          </h3>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

@@ -6,6 +6,7 @@ import FooterSection from '../sections/FooterSection';
 import LoadingSpinner from '../sections/LoadingSpinner';
 import ErrorMessage from '../sections/ErrorMessage';
 import Breadcrumb from '../sections/Breadcrumb';
+import AlbumCard from '../sections/AlbumCard';
 
 const UserDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -226,25 +227,7 @@ const UserDetailPage: React.FC = () => {
           {albums.length > 0 ? (
             <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
               {albums.map((album) => (
-                <div
-                  key={album.id}
-                  className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
-                >
-                  <div className="p-6">
-                    <h3 className="font-semibold text-gray-900 mb-3 line-clamp-2 text-lg leading-tight">
-                      {album.title}
-                    </h3>
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm text-gray-500">ID: {album.id}</span>
-                      <Link
-                        to={`/albums/${album.id}`}
-                        className="text-accent text-sm font-medium"
-                      >
-                        View Album →
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+                <AlbumCard key={album.id} album={album} />
               ))}
             </div>
           ) : (
@@ -274,6 +257,8 @@ const UserDetailPage: React.FC = () => {
 };
 
 export default UserDetailPage;
+
+
 
 
 
