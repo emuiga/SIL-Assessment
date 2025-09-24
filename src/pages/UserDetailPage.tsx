@@ -6,8 +6,6 @@ import FooterSection from '../sections/FooterSection';
 import LoadingSpinner from '../sections/LoadingSpinner';
 import ErrorMessage from '../sections/ErrorMessage';
 import Breadcrumb from '../sections/Breadcrumb';
-import AlbumCard from '../sections/AlbumCard';
-import EmptyState from '../sections/EmptyState';
 
 const UserDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();

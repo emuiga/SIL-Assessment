@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, Link } from 'react-router-dom';
 import { fetchAlbum, fetchAlbumPhotos, type Album, type Photo } from '../services/api';
 import FooterSection from '../sections/FooterSection';
 import LoadingSpinner from '../sections/LoadingSpinner';
