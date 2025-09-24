@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchUser, fetchUserAlbums, type User, type Album } from '../services/api';
 import { getAvatarForUser } from '../utils/avatarUtils';
+import FooterSection from '../sections/FooterSection';
 
 const UserDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -299,11 +300,14 @@ const UserDetailPage: React.FC = () => {
           )}
         </div>
       </div>
+
+      <FooterSection />
     </div>
   );
 };
 
 export default UserDetailPage;
+
 
 
 

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchAlbum, fetchAlbumPhotos, type Album, type Photo } from '../services/api';
+import FooterSection from '../sections/FooterSection';
 
 const AlbumPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -221,11 +222,14 @@ const AlbumPage: React.FC = () => {
           )}
         </div>
       </div>
+
+      <FooterSection />
     </div>
   );
 };
 
 export default AlbumPage;
+
 
 
 

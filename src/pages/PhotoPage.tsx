@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchPhoto, updatePhoto, type Photo } from '../services/api';
+import FooterSection from '../sections/FooterSection';
 
 const PhotoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -323,11 +324,14 @@ const PhotoPage: React.FC = () => {
           </div>
         </div>
       </div>
+
+      <FooterSection />
     </div>
   );
 };
 
 export default PhotoPage;
+
 
 
 
