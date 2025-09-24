@@ -26,7 +26,7 @@ const LandingPage: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-portfolio font-body">
+    <div className="min-h-screen bg-portfolio font-body overflow-x-hidden">
       {/* Header rendered globally in Layout */}
 
       <HeroSection />
