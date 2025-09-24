@@ -12,10 +12,10 @@ const HeroSection: React.FC = () => {
       <div className="absolute inset-0 bg-black/40"></div>
 
       <div className="relative z-10 max-w-4xl mx-auto px-6 text-left reveal">
-        <h1 className="text-white text-hero-title leading-[62px] mb-6">
+        <h1 className="text-white text-hero-title leading-[62px] mb-4 md:mb-6">
           Designed for photographers. <br /> Built to help you grow.
         </h1>
-        <p className="text-lg md:text-xl text-white/90 mb-10 max-w-2xl">
+        <p className="text-lg md:text-xl text-white/90 mb-6 md:mb-10 max-w-2xl">
           Industry-leading photo galleries, websites, and tools to simplify
           your workflow and grow your photography business.
         </p>
