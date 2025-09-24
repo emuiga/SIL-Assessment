@@ -58,7 +58,6 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
           }}
         />
         
-        {/* Hover overlay with title - no darkening */}
         <div 
           style={{
             position: 'absolute',

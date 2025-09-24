@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
 import FooterSection from '../sections/FooterSection';
@@ -6,13 +6,24 @@ import FooterSection from '../sections/FooterSection';
 const LoginPage: React.FC = () => {
   const { signInWithGoogle } = useAuth();
   const navigate = useNavigate();
+  const [error, setError] = useState<string | null>(null);
+  const [loading, setLoading] = useState(false);
 
   const handleGoogleSignIn = async () => {
     try {
+      setLoading(true);
+      setError(null);
       await signInWithGoogle();
       navigate('/users');
     } catch (error) {
       console.error('Sign in failed:', error);
+      if (error instanceof Error) {
+        setError(error.message);
+      } else {
+        setError('An unexpected error occurred. Please try again.');
+      }
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -33,13 +44,21 @@ const LoginPage: React.FC = () => {
             Use your Google account to continue
           </p>
 
+          {/* Error Message */}
+          {error && (
+            <div className="mb-4 p-3 bg-red-100 border border-red-300 text-red-700 rounded text-sm">
+              {error}
+            </div>
+          )}
+
           {/* Google Sign In Button */}
           <button
             onClick={handleGoogleSignIn}
-            className="w-full bg-white text-portfolio border border-portfolio py-4 px-8 rounded-none text-base font-medium cursor-pointer flex items-center justify-center gap-3 mb-8"
+            disabled={loading}
+            className="w-full bg-white text-portfolio border border-portfolio py-4 px-8 rounded-none text-base font-medium cursor-pointer flex items-center justify-center gap-3 mb-8 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <img src="/google (1).png" alt="Google" className="w-5 h-5" />
-            Continue with Google
+            {loading ? 'Signing in...' : 'Continue with Google'}
           </button>
 
           {/* Features List */}

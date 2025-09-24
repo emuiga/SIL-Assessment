@@ -1,13 +1,21 @@
 import axios from 'axios';
 
+/**
+ * Base URL for the JSONPlaceholder API
+ */
 const API_BASE_URL = 'https://jsonplaceholder.typicode.com';
 
+/**
+ * Axios instance configured for the JSONPlaceholder API
+ */
 const api = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
 });
 
-// Types
+/**
+ * User interface representing user data from the API
+ */
 export interface User {
   id: number;
   name: string;
@@ -47,6 +55,11 @@ export interface Photo {
 }
 
 // API Functions
+/**
+ * Fetches all users from the API
+ * @returns {Promise<User[]>} Array of user objects
+ * @throws {Error} If the API request fails
+ */
 export const fetchUsers = async (): Promise<User[]> => {
   try {
     const response = await api.get('/users');
@@ -57,6 +70,12 @@ export const fetchUsers = async (): Promise<User[]> => {
   }
 };
 
+/**
+ * Fetches a specific user by ID
+ * @param {number} id - User ID
+ * @returns {Promise<User>} User object
+ * @throws {Error} If the API request fails
+ */
 export const fetchUser = async (id: number): Promise<User> => {
   try {
     const response = await api.get(`/users/${id}`);
@@ -67,6 +86,11 @@ export const fetchUser = async (id: number): Promise<User> => {
   }
 };
 
+/**
+ * Fetches all albums from the API
+ * @returns {Promise<Album[]>} Array of album objects
+ * @throws {Error} If the API request fails
+ */
 export const fetchAlbums = async (): Promise<Album[]> => {
   try {
     const response = await api.get('/albums');
@@ -140,6 +164,7 @@ export const updatePhoto = async (id: number, title: string): Promise<Photo> => 
 };
 
 export default api;
+
 
 
 

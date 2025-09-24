@@ -3,7 +3,7 @@ import React from 'react';
 const ClientGallerySection: React.FC = () => {
   return (
     <section className="bg-portfolio py-16 px-4 md:px-6 relative overflow-hidden">
-      {/* Icon sprinkles (kept from page) */}
+      {/* Icon sprinkles */}
       <div className="icon-sprinkle icon-40" style={{WebkitMask:"url('/camera.png') center/contain no-repeat", mask:"url('/camera.png') center/contain no-repeat", top:'24px', left:'-8px'}}></div>
       <div className="icon-sprinkle icon-56" style={{WebkitMask:"url('/studio-lighting.png') center/contain no-repeat", mask:"url('/studio-lighting.png') center/contain no-repeat", top:'80px', right:'-12px'}}></div>
       <div className="icon-sprinkle icon-56" style={{WebkitMask:"url('/studio-lighting.png') center/contain no-repeat", mask:"url('/studio-lighting.png') center/contain no-repeat", top:'300px', left:'20px'}}></div>

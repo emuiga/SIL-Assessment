@@ -11,17 +11,17 @@ const FooterSection: React.FC = () => {
             websites and simple business tools.
           </p>
           <div className="flex items-center gap-4 mt-4">
-            <a href="#" aria-label="Instagram">
-              <img src="/instagram.png" alt="Instagram" className="w-5 h-5" />
+            <a href="#" aria-label="Instagram" className="text-portfolio hover:text-accent transition-colors">
+              <img src="/instagram.png" alt="Instagram" className="w-5 h-5" style={{filter: 'sepia(100%) saturate(200%) hue-rotate(30deg) brightness(0.8)'}} />
             </a>
-            <a href="#" aria-label="Twitter">
-              <img src="/twitter.png" alt="Twitter" className="w-5 h-5" />
+            <a href="#" aria-label="Twitter" className="text-portfolio hover:text-accent transition-colors">
+              <img src="/twitter.png" alt="Twitter" className="w-5 h-5" style={{filter: 'sepia(100%) saturate(200%) hue-rotate(30deg) brightness(0.8)'}} />
             </a>
-            <a href="#" aria-label="LinkedIn">
-              <img src="/linkedin.png" alt="LinkedIn" className="w-5 h-5" />
+            <a href="#" aria-label="LinkedIn" className="text-portfolio hover:text-accent transition-colors">
+              <img src="/linkedin.png" alt="LinkedIn" className="w-5 h-5" style={{filter: 'sepia(100%) saturate(200%) hue-rotate(30deg) brightness(0.8)'}} />
             </a>
-            <a href="#" aria-label="Facebook">
-              <img src="/facebook-app-symbol.png" alt="Facebook" className="w-5 h-5" />
+            <a href="#" aria-label="Facebook" className="text-portfolio hover:text-accent transition-colors">
+              <img src="/facebook-app-symbol.png" alt="Facebook" className="w-5 h-5" style={{filter: 'sepia(100%) saturate(200%) hue-rotate(30deg) brightness(0.8)'}} />
             </a>
           </div>
         </div>
@@ -54,7 +54,7 @@ const FooterSection: React.FC = () => {
         </div>
       </div>
       <div className="mt-10 text-center text-portfolio/60 text-xs border-top border-portfolio/20 pt-4">
-        © 2024 The Galla. All rights reserved.
+        © {new Date().getFullYear()} The Galla. All rights reserved.
       </div>
     </footer>
   );

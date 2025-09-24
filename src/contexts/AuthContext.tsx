@@ -2,21 +2,35 @@ import React, { createContext, useContext, useEffect, useState } from 'react';
 import { 
   type User, 
   signInWithPopup, 
+  signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider, 
   signOut,
   onAuthStateChanged 
 } from 'firebase/auth';
 import { auth } from '../firebase';
 
+/**
+ * Authentication context type definition
+ */
 interface AuthContextType {
+  /** Current authenticated user or null if not logged in */
   user: User | null;
+  /** Loading state for authentication operations */
   loading: boolean;
+  /** Sign in with Google using popup or redirect fallback */
   signInWithGoogle: () => Promise<void>;
+  /** Sign out the current user */
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
+/**
+ * Hook to access authentication context
+ * @returns {AuthContextType} Authentication context with user state and methods
+ * @throws {Error} If used outside of AuthProvider
+ */
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
@@ -25,6 +39,12 @@ export const useAuth = () => {
   return context;
 };
 
+/**
+ * Authentication provider component that manages user authentication state
+ * @param {Object} props - Component props
+ * @param {React.ReactNode} props.children - Child components to wrap with auth context
+ * @returns {JSX.Element} Provider component with authentication context
+ */
 export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
@@ -35,12 +55,43 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setLoading(false);
     });
 
+    // Check for redirect result on page load
+    getRedirectResult(auth)
+      .then((result) => {
+        if (result) {
+          console.log('Redirect sign-in successful');
+        }
+      })
+      .catch((error) => {
+        console.error('Redirect sign-in error:', error);
+      });
+
     return unsubscribe;
   }, []);
 
   const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (error) {
+      console.error('Popup sign-in failed, trying redirect:', error);
+      
+      // If popup fails, try redirect as fallback
+      try {
+        const provider = new GoogleAuthProvider();
+        await signInWithRedirect(auth, provider);
+        // Note: User will be redirected away from the page
+        // The result will be handled in the useEffect above
+      } catch (redirectError) {
+        console.error('Redirect sign-in also failed:', redirectError);
+        // Log more detailed error information
+        if (error instanceof Error) {
+          console.error('Error message:', error.message);
+          console.error('Error code:', (error as any).code);
+        }
+        throw error; // Re-throw the original popup error
+      }
+    }
   };
 
   const logout = async () => {
