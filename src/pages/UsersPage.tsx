@@ -2,12 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { fetchUsers, fetchAlbums, type User, type Album } from '../services/api';
 import { getAvatarForUser } from '../utils/avatarUtils';
+import FooterSection from '../sections/FooterSection';
 
 const UsersPage: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [albums, setAlbums] = useState<Album[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [searchTerm, setSearchTerm] = useState('');
 
   useEffect(() => {
     const loadData = async () => {
@@ -35,6 +37,12 @@ const UsersPage: React.FC = () => {
   const getUserAlbumCount = (userId: number): number => {
     return albums.filter(album => album.userId === userId).length;
   };
+
+  const filteredUsers = users.filter(user =>
+    user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.username.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    user.email.toLowerCase().includes(searchTerm.toLowerCase())
+  );
 
   if (loading) {
     return (
@@ -81,9 +89,20 @@ const UsersPage: React.FC = () => {
         </p>
       </div>
 
+      {/* Search */}
+      <div className="mb-8 max-w-md mx-auto">
+        <input
+          type="text"
+          placeholder="Search users by name, username, or email..."
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-accent focus:border-transparent"
+        />
+      </div>
+
       {/* Users Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-        {users.map((user) => {
+        {filteredUsers.map((user) => {
           const albumCount = getUserAlbumCount(user.id);
           
           return (
@@ -137,11 +156,15 @@ const UsersPage: React.FC = () => {
         })}
       </div>
 
-      {users.length === 0 && (
+      {filteredUsers.length === 0 && (
         <div className="text-center py-16">
-          <p className="text-gray-500 text-base">No clients found.</p>
+          <p className="text-gray-500 text-base">
+            {searchTerm ? 'No clients match your search.' : 'No clients found.'}
+          </p>
         </div>
       )}
+
+      <FooterSection />
     </div>
   );
 };
