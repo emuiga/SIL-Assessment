@@ -61,7 +61,7 @@ const UserDetailPage: React.FC = () => {
   }
 
   return (
-    <div className="min-h-screen bg-portfolio">
+    <div className="min-h-screen bg-portfolio overflow-x-hidden">
       {/* Header Section with Breadcrumb */}
       <div className="bg-white shadow-sm border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
@@ -74,10 +74,10 @@ const UserDetailPage: React.FC = () => {
 
           {/* User Profile Header */}
           <div className="flex items-start justify-between">
-            <div className="flex items-start space-x-6">
+            <div className="flex items-start space-x-4 md:space-x-6">
               {/* Avatar */}
               <div className="flex-shrink-0">
-                <div className="w-24 h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
+                <div className="w-16 h-16 md:w-24 md:h-24 rounded-full overflow-hidden border-4 border-white shadow-lg">
                   <img
                     src={getAvatarForUser(user.id.toString())}
                     alt={`${user.name} avatar`}
@@ -88,12 +88,12 @@ const UserDetailPage: React.FC = () => {
 
               {/* User Info */}
               <div className="flex-1 pt-2">
-                <h1 className="text-4xl font-bold text-portfolio mb-2 font-playfair leading-tight">
+                <h1 className="text-2xl md:text-4xl font-bold text-portfolio mb-2 font-playfair leading-tight">
                   {user.name}
                 </h1>
-                <p className="text-xl text-gray-600 mb-4">@{user.username}</p>
+                <p className="text-lg md:text-xl text-gray-600 mb-4">@{user.username}</p>
 
-                <div className="flex items-center space-x-6 text-sm text-gray-600">
+                <div className="flex flex-col space-y-2 md:flex-row md:space-y-0 md:space-x-6 text-sm text-gray-600">
                   <span className="flex items-center">
                     <svg className="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
@@ -108,7 +108,8 @@ const UserDetailPage: React.FC = () => {
                   </span>
                   <span className="flex items-center">
                     <svg className="w-4 h-4 mr-2 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
                     </svg>
                     {albums.length} {albums.length === 1 ? 'album' : 'albums'}
                   </span>
@@ -117,7 +118,7 @@ const UserDetailPage: React.FC = () => {
             </div>
 
             {/* Action Buttons */}
-            <div className="flex space-x-3 ml-6">
+            <div className="hidden md:flex space-x-3 ml-6">
               <Link
                 to="/users"
                 className="inline-flex items-center px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white"
@@ -138,7 +139,7 @@ const UserDetailPage: React.FC = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-8">
           {/* Contact Details */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-portfolio mb-6 font-playfair">Contact Information</h2>
+            <h2 className="text-lg md:text-xl font-bold text-portfolio mb-6 font-playfair">Contact Information</h2>
             <div className="space-y-4">
               <div className="flex items-start space-x-3">
                 <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -162,7 +163,7 @@ const UserDetailPage: React.FC = () => {
 
               <div className="flex items-start space-x-3">
                 <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9v-9m0-9v9" />
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                 </svg>
                 <div>
                   <p className="text-sm font-medium text-gray-500">Website</p>
@@ -176,7 +177,7 @@ const UserDetailPage: React.FC = () => {
 
           {/* Company Information */}
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-            <h2 className="text-xl font-bold text-portfolio mb-6 font-playfair">Company Details</h2>
+            <h2 className="text-lg md:text-xl font-bold text-portfolio mb-6 font-playfair">Company Details</h2>
             <div className="space-y-4">
               <div>
                 <p className="text-sm font-medium text-gray-500 mb-1">Company Name</p>
@@ -198,7 +199,7 @@ const UserDetailPage: React.FC = () => {
 
         {/* Address Information */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 mb-8">
-          <h2 className="text-xl font-bold text-portfolio mb-6 font-playfair">Address</h2>
+          <h2 className="text-lg md:text-xl font-bold text-portfolio mb-6 font-playfair">Address</h2>
           <div className="flex items-start space-x-3">
             <svg className="w-5 h-5 text-accent mt-0.5 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
@@ -216,7 +217,7 @@ const UserDetailPage: React.FC = () => {
         {/* Albums Section */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-2xl font-bold text-portfolio font-playfair">
+            <h2 className="text-xl md:text-2xl font-bold text-portfolio font-playfair">
               Albums by {user.name}
             </h2>
             <div className="text-sm text-gray-500 bg-white px-3 py-1 rounded-full border border-gray-200">
