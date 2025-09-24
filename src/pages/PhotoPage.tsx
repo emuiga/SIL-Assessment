@@ -2,6 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { fetchPhoto, updatePhoto, type Photo } from '../services/api';
 import FooterSection from '../sections/FooterSection';
+import LoadingSpinner from '../sections/LoadingSpinner';
+import ErrorMessage from '../sections/ErrorMessage';
+import Breadcrumb from '../sections/Breadcrumb';
 
 const PhotoPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -74,34 +77,11 @@ const PhotoPage: React.FC = () => {
   };
 
   if (loading) {
-    return (
-      <div className="flex items-center justify-center py-12">
-        <div className="text-center">
-          <div className="rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto mb-4"></div>
-          <p className="text-gray-600">Loading photo...</p>
-        </div>
-      </div>
-    );
+    return <LoadingSpinner message="Loading photo..." />;
   }
 
   if (error) {
-    return (
-      <div className="bg-red-50 border border-red-200 rounded-lg p-6">
-        <div className="flex">
-          <div className="flex-shrink-0">
-            <svg className="h-5 w-5 text-red-400" viewBox="0 0 20 20" fill="currentColor">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z" clipRule="evenodd" />
-            </svg>
-          </div>
-          <div className="ml-3">
-            <h3 className="text-sm font-medium text-red-800">Error loading photo</h3>
-            <div className="mt-2 text-sm text-red-700">
-              <p>{error}</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    );
+    return <ErrorMessage title="Error loading photo" message={error} />;
   }
 
   if (!photo) {
@@ -117,44 +97,15 @@ const PhotoPage: React.FC = () => {
 
   return (
     <div>
-      {/* Breadcrumb */}
-      <nav className="flex mb-8" aria-label="Breadcrumb">
-        <ol className="flex items-center space-x-4">
-          <li>
-            <Link to="/users" className="text-gray-500 hover:text-gray-700">
-              Users
-            </Link>
-          </li>
-          <li>
-            <div className="flex items-center">
-              <svg className="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-              </svg>
-              <Link to={`/users/${Math.ceil(photo.id / 50)}`} className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                User Profile
-              </Link>
-            </div>
-          </li>
-          <li>
-            <div className="flex items-center">
-              <svg className="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-              </svg>
-              <Link to={`/albums/${photo.albumId}`} className="ml-4 text-sm font-medium text-gray-500 hover:text-gray-700">
-                Album
-              </Link>
-            </div>
-          </li>
-          <li>
-            <div className="flex items-center">
-              <svg className="flex-shrink-0 h-5 w-5 text-gray-400" fill="currentColor" viewBox="0 0 20 20">
-                <path fillRule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clipRule="evenodd" />
-              </svg>
-              <span className="ml-4 text-sm font-medium text-gray-500">Photo</span>
-            </div>
-          </li>
-        </ol>
-      </nav>
+      <Breadcrumb
+        items={[
+          { label: 'Users', href: '/users' },
+          { label: 'User Profile', href: `/users/${Math.ceil(photo.id / 50)}` },
+          { label: 'Album', href: `/albums/${photo.albumId}` },
+          { label: 'Photo' }
+        ]}
+        className="mb-8"
+      />
 
       {/* Success Message */}
       {saveSuccess && (
