@@ -24,20 +24,8 @@ interface AuthContextType {
   logout: () => Promise<void>;
 }
 
-const AuthContext = createContext<AuthContextType | undefined>(undefined);
+export const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-/**
- * Hook to access authentication context
- * @returns {AuthContextType} Authentication context with user state and methods
- * @throws {Error} If used outside of AuthProvider
- */
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
-  }
-  return context;
-};
 
 /**
  * Authentication provider component that manages user authentication state
@@ -87,7 +75,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
         // Log more detailed error information
         if (error instanceof Error) {
           console.error('Error message:', error.message);
-          console.error('Error code:', (error as any).code);
+          console.error('Error code:', (error as unknown as { code: string }).code);
         }
         throw error; // Re-throw the original popup error
       }

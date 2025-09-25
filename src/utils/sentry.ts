@@ -18,26 +18,26 @@ export const initSentry = () => {
   console.log('Sentry initialized for error tracking');
 };
 
-export const logError = (error: Error, context?: Record<string, any>) => {
+export const logError = (error: Error, context?: Record<string, unknown>) => {
   console.error('Logging error to Sentry:', error, context);
 
   Sentry.withScope((scope: Sentry.Scope) => {
     if (context) {
       Object.keys(context).forEach((key) => {
-        scope.setTag(key, context[key]);
+        scope.setTag(key, String(context[key]));
       });
     }
     Sentry.captureException(error);
   });
 };
 
-export const logMessage = (message: string, level: Sentry.SeverityLevel = 'info', context?: Record<string, any>) => {
+export const logMessage = (message: string, level: Sentry.SeverityLevel = 'info', context?: Record<string, unknown>) => {
   console.log(`[${level.toUpperCase()}] ${message}`, context);
 
   Sentry.withScope((scope: Sentry.Scope) => {
     if (context) {
       Object.keys(context).forEach((key) => {
-        scope.setTag(key, context[key]);
+        scope.setTag(key, String(context[key]));
       });
     }
     Sentry.captureMessage(message, level);
