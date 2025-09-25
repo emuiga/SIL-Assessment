@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { logError, logMessage, addBreadcrumb } from '../utils/sentry';
+import { logError } from '../utils/sentry';
 
 /**
  * Base URL for the JSONPlaceholder API
@@ -66,7 +66,7 @@ export const fetchUsers = async (): Promise<User[]> => {
     const response = await api.get('/users');
     return response.data;
   } catch (error) {
-    console.error('Error fetching users:', error);
+    logError(new Error('Failed to fetch users'), { originalError: error });
     throw new Error('Failed to fetch users');
   }
 };
@@ -82,7 +82,7 @@ export const fetchUser = async (id: number): Promise<User> => {
     const response = await api.get(`/users/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching user ${id}:`, error);
+    logError(new Error(`Failed to fetch user ${id}`), { originalError: error, userId: id });
     throw new Error(`Failed to fetch user ${id}`);
   }
 };
@@ -97,7 +97,7 @@ export const fetchAlbums = async (): Promise<Album[]> => {
     const response = await api.get('/albums');
     return response.data;
   } catch (error) {
-    console.error('Error fetching albums:', error);
+    logError(new Error('Failed to fetch albums'), { originalError: error });
     throw new Error('Failed to fetch albums');
   }
 };
@@ -107,7 +107,7 @@ export const fetchUserAlbums = async (userId: number): Promise<Album[]> => {
     const response = await api.get(`/users/${userId}/albums`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching albums for user ${userId}:`, error);
+    logError(new Error(`Failed to fetch albums for user ${userId}`), { originalError: error, userId });
     throw new Error(`Failed to fetch albums for user ${userId}`);
   }
 };
@@ -117,7 +117,7 @@ export const fetchAlbum = async (id: number): Promise<Album> => {
     const response = await api.get(`/albums/${id}`);
     return response.data;
   } catch (error) {
-    console.error(`Error fetching album ${id}:`, error);
+    logError(new Error(`Failed to fetch album ${id}`), { originalError: error, albumId: id });
     throw new Error(`Failed to fetch album ${id}`);
   }
 };
@@ -127,7 +127,7 @@ export const fetchPhotos = async (): Promise<Photo[]> => {
     const response = await api.get('/photos');
     return response.data;
   } catch (error) {
-    console.error('Error fetching photos:', error);
+    logError(new Error('Failed to fetch photos'), { originalError: error });
     throw new Error('Failed to fetch photos');
   }
 };
@@ -147,7 +147,7 @@ export const fetchAlbumPhotos = async (albumId: number): Promise<Photo[]> => {
       return photo;
     });
   } catch (error) {
-    console.error(`Error fetching photos for album ${albumId}:`, error);
+    logError(new Error(`Failed to fetch photos for album ${albumId}`), { originalError: error, albumId });
     throw new Error(`Failed to fetch photos for album ${albumId}`);
   }
 };
@@ -165,7 +165,7 @@ export const fetchPhoto = async (id: number): Promise<Photo> => {
 
     return photo;
   } catch (error) {
-    console.error(`Error fetching photo ${id}:`, error);
+    logError(new Error(`Failed to fetch photo ${id}`), { originalError: error, photoId: id });
     throw new Error(`Failed to fetch photo ${id}`);
   }
 };
@@ -184,7 +184,7 @@ export const updatePhoto = async (id: number, title: string): Promise<Photo> => 
 
     return updatedPhoto;
   } catch (error) {
-    console.error(`Error updating photo ${id}:`, error);
+    logError(new Error(`Failed to update photo ${id}`), { originalError: error, photoId: id, newTitle: title });
     throw new Error(`Failed to update photo ${id}`);
   }
 };

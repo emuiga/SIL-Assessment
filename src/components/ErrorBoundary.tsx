@@ -1,5 +1,5 @@
 import React from 'react';
-import * as Sentry from '@sentry/react';
+import * as Sentry from '@sentry/browser';
 import ErrorMessage from '../sections/ErrorMessage';
 
 interface ErrorBoundaryState {
@@ -28,7 +28,7 @@ class ErrorBoundary extends React.Component<ErrorBoundaryProps, ErrorBoundarySta
     // Send error to Sentry
     Sentry.withScope((scope) => {
       scope.setTag('component', 'ErrorBoundary');
-      scope.setContext('errorInfo', errorInfo);
+      scope.setExtra('errorInfo', errorInfo);
       Sentry.captureException(error);
     });
   }
