@@ -10,12 +10,43 @@ A comprehensive React application that showcases user data, albums, and photos f
 - Persistent authentication state
 
 ### 📱 Pages & Functionality
-- **Landing Page**: Public page explaining the application
-- **Login Page**: Google authentication with Firebase
-- **Users Page**: Lists all users with album counts (requires authentication)
-- **User Detail Page**: Shows user information and their albums
-- **Album Page**: Displays album photos
-- **Photo Page**: View and edit photo titles with PATCH/PUT requests
+
+The application fulfills the following requirements for the frontend:
+
+1. **Landing Section**: A landing section accessible to all app visitors with a brief explanation of what the application does.
+   - Implemented as the `LandingPage.tsx`, which is publicly accessible without authentication. It provides an overview of the application's purpose, showcasing user data, albums, and photos from the JSONPlaceholder API.
+
+2. **Authentication Page**: A page to authenticate users (Login page).
+   - The `LoginPage.tsx` handles user authentication using Google Sign-in via Firebase Authentication. Auth sessions are maintained in the application using Firebase's authentication state management.
+   - The authentication page is separate from the landing page, though both are accessible to all visitors.
+
+3. **Logged-in Pages** (requiring authentication):
+   - **Home (Users Page)**: A page that lists all users.
+     - Implemented as `UsersPage.tsx`, accessible only to authenticated users.
+     - Displays how many albums each user has.
+     - Runs a GET request to `/users` to fetch all users.
+     - Runs a GET request to `/albums` to fetch all albums and calculate album counts per user.
+   - **User Page**: A page that shows the user's information.
+     - Implemented as `UserDetailPage.tsx`, shown when a user is selected from the Users Page.
+     - Lists the user's albums.
+     - Runs a GET request to `/users/:id` for the selected user.
+     - Runs a GET request to `/users/:id/albums` for the user's albums.
+   - **Album Page**: A page that shows an album's information and its photos.
+     - Implemented as `AlbumPage.tsx`, shown when an album is selected.
+     - Lists the album's photos.
+     - Runs a GET request to `/albums/:id` for the selected album.
+     - Runs a GET request to `/albums/:id/photos` for the album's photos.
+   - **Photo Page**: A page that displays a photo.
+     - Implemented as `PhotoPage.tsx`, shown when a photo is selected.
+     - Allows users to edit the title of the photo, sending a PATCH request to the backend server after editing.
+     - Runs a GET request to `/photos/:id` to fetch the photo details.
+
+4. **Error Monitoring and Logging**: Sentry integration for comprehensive error tracking and monitoring.
+   - Implemented using the Sentry SDK for browser error monitoring.
+   - Configured with environment variables for DSN (Data Source Name).
+   - Provides functions for logging errors, messages, setting user context, tags, and breadcrumbs.
+   - Integrated into API service functions to capture and report errors during data fetching and updates.
+   - Includes console logging as fallback when Sentry is not configured.
 
 ### 🎨 UI/UX Features
 - Responsive design for mobile, tablet, and desktop
@@ -28,6 +59,7 @@ A comprehensive React application that showcases user data, albums, and photos f
 - TypeScript for type safety
 - React Router for navigation
 - Axios for API calls
+- Sentry for error monitoring and logging
 - Environment variables for configuration
 - Unit tests with Vitest
 - ESLint for code quality
@@ -96,7 +128,7 @@ The application consumes data from [JSONPlaceholder](https://jsonplaceholder.typ
 - `GET /albums/:id` - Fetch specific album
 - `GET /albums/:id/photos` - Fetch album photos
 - `GET /photos/:id` - Fetch specific photo
-- `PUT /photos/:id` - Update photo title
+- `PATCH /photos/:id` - Update photo title
 
 ## Project Structure
 
@@ -146,11 +178,9 @@ npm run test
 
 ## Deployment
 
-The application is ready for deployment on platforms like:
+The application is ready for deployment on platform:
 - Vercel
-- Netlify
-- Heroku
-- Firebase Hosting
+
 
 Build the application:
 ```bash
