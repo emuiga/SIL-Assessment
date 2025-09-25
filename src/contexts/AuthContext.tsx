@@ -1,30 +1,15 @@
-import React, { createContext, useEffect, useState } from 'react';
-import { 
-  type User, 
-  signInWithPopup, 
+import React, { useEffect, useState } from 'react';
+import {
+  type User,
+  signInWithPopup,
   signInWithRedirect,
   getRedirectResult,
-  GoogleAuthProvider, 
+  GoogleAuthProvider,
   signOut,
-  onAuthStateChanged 
+  onAuthStateChanged
 } from 'firebase/auth';
 import { auth } from '../firebase';
-
-/**
- * Authentication context type definition
- */
-interface AuthContextType {
-  /** Current authenticated user or null if not logged in */
-  user: User | null;
-  /** Loading state for authentication operations */
-  loading: boolean;
-  /** Sign in with Google using popup or redirect fallback */
-  signInWithGoogle: () => Promise<void>;
-  /** Sign out the current user */
-  logout: () => Promise<void>;
-}
-
-export const AuthContext = createContext<AuthContextType | undefined>(undefined);
+import { AuthContext } from '../hooks/useAuth';
 
 
 /**
