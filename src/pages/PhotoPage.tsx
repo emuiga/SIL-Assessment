@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { fetchPhoto, type Photo } from '../services/api';
+import { fetchPhoto, updatePhoto, type Photo } from '../services/api';
 import FooterSection from '../sections/FooterSection';
 import LoadingSpinner from '../sections/LoadingSpinner';
 import ErrorMessage from '../sections/ErrorMessage';
@@ -13,6 +13,9 @@ const PhotoPage: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [imageLoading, setImageLoading] = useState(true);
   const [imageError, setImageError] = useState(false);
+  const [isEditingTitle, setIsEditingTitle] = useState(false);
+  const [titleInput, setTitleInput] = useState('');
+  const [updatingTitle, setUpdatingTitle] = useState(false);
 
   useEffect(() => {
     const loadPhoto = async () => {
@@ -38,6 +41,30 @@ const PhotoPage: React.FC = () => {
     loadPhoto();
   }, [id]);
 
+  const handleEditTitle = () => {
+    setTitleInput(photo?.title || '');
+    setIsEditingTitle(true);
+  };
+
+  const handleSaveTitle = async () => {
+    if (!photo || !titleInput.trim()) return;
+
+    try {
+      setUpdatingTitle(true);
+      const updatedPhoto = await updatePhoto(photo.id, titleInput.trim());
+      setPhoto(updatedPhoto);
+      setIsEditingTitle(false);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Failed to update title');
+    } finally {
+      setUpdatingTitle(false);
+    }
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditingTitle(false);
+    setTitleInput('');
+  };
 
   if (loading) {
     return <LoadingSpinner message="Loading photo..." />;
@@ -123,8 +150,48 @@ const PhotoPage: React.FC = () => {
           <div className="space-y-6">
             {/* Photo Title */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-              <h2 className="text-xl font-semibold text-gray-900 mb-4">Photo Details</h2>
-              <p className="text-gray-900 leading-relaxed">{photo.title}</p>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-semibold text-gray-900">Photo Details</h2>
+                {!isEditingTitle && (
+                  <button
+                    onClick={handleEditTitle}
+                    className="text-sm text-blue-600 hover:text-blue-500 font-medium"
+                  >
+                    Edit Title
+                  </button>
+                )}
+              </div>
+
+              {isEditingTitle ? (
+                <div className="space-y-3">
+                  <input
+                    type="text"
+                    value={titleInput}
+                    onChange={(e) => setTitleInput(e.target.value)}
+                    className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                    placeholder="Enter photo title"
+                    disabled={updatingTitle}
+                  />
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={handleSaveTitle}
+                      disabled={updatingTitle || !titleInput.trim()}
+                      className="px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-md hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      {updatingTitle ? 'Saving...' : 'Save'}
+                    </button>
+                    <button
+                      onClick={handleCancelEdit}
+                      disabled={updatingTitle}
+                      className="px-4 py-2 bg-gray-300 text-gray-700 text-sm font-medium rounded-md hover:bg-gray-400 disabled:opacity-50 disabled:cursor-not-allowed"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+                </div>
+              ) : (
+                <p className="text-gray-900 leading-relaxed">{photo.title}</p>
+              )}
             </div>
 
             {/* Actions */}

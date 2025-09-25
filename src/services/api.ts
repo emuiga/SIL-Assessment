@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logError, logMessage, addBreadcrumb } from '../utils/sentry';
 
 /**
  * Base URL for the JSONPlaceholder API
@@ -134,7 +135,17 @@ export const fetchPhotos = async (): Promise<Photo[]> => {
 export const fetchAlbumPhotos = async (albumId: number): Promise<Photo[]> => {
   try {
     const response = await api.get(`/albums/${albumId}/photos`);
-    return response.data;
+    const photos = response.data;
+
+    // Check for locally updated photos
+    const storedPhotos = JSON.parse(localStorage.getItem('updatedPhotos') || '{}');
+
+    return photos.map((photo: Photo) => {
+      if (storedPhotos[photo.id]) {
+        return { ...photo, title: storedPhotos[photo.id].title };
+      }
+      return photo;
+    });
   } catch (error) {
     console.error(`Error fetching photos for album ${albumId}:`, error);
     throw new Error(`Failed to fetch photos for album ${albumId}`);
@@ -144,7 +155,15 @@ export const fetchAlbumPhotos = async (albumId: number): Promise<Photo[]> => {
 export const fetchPhoto = async (id: number): Promise<Photo> => {
   try {
     const response = await api.get(`/photos/${id}`);
-    return response.data;
+    const photo = response.data;
+
+    // Check if we have a locally updated version
+    const storedPhotos = JSON.parse(localStorage.getItem('updatedPhotos') || '{}');
+    if (storedPhotos[id]) {
+      return { ...photo, title: storedPhotos[id].title };
+    }
+
+    return photo;
   } catch (error) {
     console.error(`Error fetching photo ${id}:`, error);
     throw new Error(`Failed to fetch photo ${id}`);
@@ -153,10 +172,17 @@ export const fetchPhoto = async (id: number): Promise<Photo> => {
 
 export const updatePhoto = async (id: number, title: string): Promise<Photo> => {
   try {
-    const response = await api.put(`/photos/${id}`, {
+    const response = await api.patch(`/photos/${id}`, {
       title,
     });
-    return response.data;
+
+    // Store the updated photo in localStorage for persistence
+    const updatedPhoto = { ...response.data, title };
+    const storedPhotos = JSON.parse(localStorage.getItem('updatedPhotos') || '{}');
+    storedPhotos[id] = updatedPhoto;
+    localStorage.setItem('updatedPhotos', JSON.stringify(storedPhotos));
+
+    return updatedPhoto;
   } catch (error) {
     console.error(`Error updating photo ${id}:`, error);
     throw new Error(`Failed to update photo ${id}`);

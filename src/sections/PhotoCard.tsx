@@ -10,7 +10,7 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
   return (
     <Link
       to={`/photos/${photo.id}`}
-      className="block"
+      className="block group"
     >
       <div
         className="relative w-full aspect-square bg-gray-100 rounded-lg overflow-hidden"
@@ -33,10 +33,10 @@ const PhotoCard: React.FC<PhotoCardProps> = ({ photo }) => {
             }
           }}
         />
-        
+
         <div className="absolute inset-0 flex items-end pointer-events-none">
           <div
-            className="w-full p-4 translate-y-0 md:translate-y-full md:hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"
+            className="w-full p-4 translate-y-0 md:translate-y-full md:group-hover:translate-y-0 transition-transform duration-300 bg-gradient-to-t from-black/70 to-transparent pointer-events-none"
           >
             <h3 className="text-white font-medium text-sm leading-tight m-0 overflow-hidden line-clamp-2 text-shadow">
               {photo.title}
